@@ -60,6 +60,8 @@ export const en = {
     title: 'Confirm Delete',
     message:
       'Are you sure you want to delete this employee? This action cannot be undone.',
+    deleteAllMessage:
+      'Are you sure you want to delete all selected employees? This action cannot be undone.',
     confirm: 'Delete',
     cancel: 'Cancel',
   },

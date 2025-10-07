@@ -60,6 +60,8 @@ export const tr = {
     title: 'Silmeyi Onayla',
     message:
       'Bu çalışanı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.',
+    deleteAllMessage:
+      'Seçili tüm çalışanları silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.',
     confirm: 'Sil',
     cancel: 'İptal',
   },

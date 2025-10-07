@@ -4,6 +4,8 @@ import store from '../store/store.js';
 
 import './confirm-dialog.js';
 import './icons.js';
+import './checkbox.js';
+import {Router} from '@vaadin/router';
 
 export class EmployeeList extends LocalizeMixin(LitElement) {
   static get styles() {
@@ -57,7 +59,6 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
       .view-toggle {
         display: flex;
         gap: var(--spacing-xs);
-        background-color: var(--color-gray-100);
         padding: var(--spacing-xs);
         border-radius: var(--radius-md);
       }
@@ -72,12 +73,6 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
         font-size: var(--font-size-sm);
       }
 
-      .view-toggle button.active {
-        background-color: white;
-        box-shadow: var(--shadow-sm);
-      }
-
-      /* Table View */
       .table-container {
         overflow-x: auto;
         background: white;
@@ -108,8 +103,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
         background-color: var(--color-gray-50);
       }
 
-      /* List View */
-      .list-container {
+      .grid-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         flex-direction: column;
@@ -199,13 +193,22 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
 
       .btn-edit {
         color: white;
+        background-color: color-mix(
+          in srgb,
+          var(--color-primary),
+          transparent 90%
+        );
       }
 
       .btn-edit:hover {
       }
 
       .btn-delete {
-        color: white;
+        background-color: color-mix(
+          in srgb,
+          var(--color-danger),
+          transparent 80%
+        );
       }
 
       .btn-delete:hover {
@@ -301,6 +304,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
       searchQuery: {type: String},
       currentPage: {type: Number},
       itemsPerPage: {type: Number},
+      selectedEmployees: {type: Array},
     };
   }
 
@@ -308,6 +312,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
     super();
     this.employees = [];
     this.filteredEmployees = [];
+    this.selectedEmployees = [];
     this.viewMode = 'table';
     this.searchQuery = '';
     this.currentPage = 1;
@@ -358,13 +363,67 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
   }
 
   _handleEdit(id) {
-    import('@vaadin/router').then(({Router}) => {
-      Router.go(`/employees/${id}/edit`);
-    });
+    Router.go(`/employees/${id}/edit`);
+  }
+
+  _handleCheckboxChange(e, id) {
+    const isChecked = e.target.isChecked;
+    if (isChecked) {
+      if (!this.selectedEmployees.includes(id)) {
+        this.selectedEmployees = [...this.selectedEmployees, id];
+      }
+    } else {
+      this.selectedEmployees = this.selectedEmployees.filter(
+        (empId) => empId !== id
+      );
+    }
+  }
+
+  _handleSelectAllChange(e, employees) {
+    const isChecked = e.target.isChecked;
+    const employeeIds = employees.map((emp) => emp.id);
+    if (isChecked) {
+      const ids = new Set(this.selectedEmployees);
+      employeeIds.forEach((id) => ids.add(id));
+      this.selectedEmployees = Array.from(ids);
+    } else {
+      const idsToRemove = new Set(employeeIds);
+      this.selectedEmployees = this.selectedEmployees.filter(
+        (empId) => !idsToRemove.has(empId)
+      );
+    }
+  }
+
+  _areAllSelected(employees) {
+    if (!employees.length) {
+      return false;
+    }
+    return employees.every((emp) => this.selectedEmployees.includes(emp.id));
+  }
+
+  _isEmployeeSelected(id) {
+    return this.selectedEmployees.includes(id);
   }
 
   async _handleDelete(employee) {
     const dialog = this.shadowRoot.querySelector('confirm-dialog');
+
+    if (this.selectedEmployees.length > 1) {
+      const confirmed = await dialog.show({
+        title: this.t('deleteConfirm.title'),
+        message: this.t('deleteConfirm.deleteAllMessage'),
+        confirmText: this.t('deleteConfirm.confirm'),
+        cancelText: this.t('deleteConfirm.cancel'),
+        type: 'danger',
+        confirmButtonType: 'danger',
+      });
+
+      if (confirmed) {
+        store.deleteEmployees(this.selectedEmployees);
+        this.selectedEmployees = [];
+      }
+      return;
+    }
 
     const confirmed = await dialog.show({
       title: this.t('deleteConfirm.title'),
@@ -379,6 +438,9 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
 
     if (confirmed) {
       store.deleteEmployee(employee.id);
+      this.selectedEmployees = this.selectedEmployees.filter(
+        (empId) => empId !== employee.id
+      );
     }
   }
 
@@ -428,13 +490,25 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
                 class="${this.viewMode === 'table' ? 'active' : ''}"
                 @click="${() => this._setViewMode('table')}"
               >
-                ${this.t('employeeList.tableView')}
+                <icon-element
+                  name=${this.viewMode === 'table'
+                    ? 'table-row-active'
+                    : 'table-row'}
+                  color=${this.viewMode === 'table'
+                    ? 'var(--color-primary)'
+                    : 'var(--color-gray-400)'}
+                ></icon-element>
               </button>
               <button
                 class="${this.viewMode === 'list' ? 'active' : ''}"
                 @click="${() => this._setViewMode('list')}"
               >
-                ${this.t('employeeList.listView')}
+                <icon-element
+                  name=${this.viewMode === 'list' ? 'grid-active' : 'grid'}
+                  color=${this.viewMode === 'list'
+                    ? 'var(--color-primary)'
+                    : 'var(--color-gray-400)'}
+                ></icon-element>
               </button>
             </div>
           </div>
@@ -446,7 +520,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
             </div>`
           : this.viewMode === 'table'
           ? this._renderTableView(paginatedEmployees)
-          : this._renderListView(paginatedEmployees)}
+          : this._renderGridView(paginatedEmployees)}
         ${this.filteredEmployees.length > 0
           ? html`
               <div class="pagination">
@@ -509,6 +583,12 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
         <table>
           <thead>
             <tr>
+              <th>
+                <checkbox-element
+                  .isChecked="${this._areAllSelected(employees)}"
+                  @change="${(e) => this._handleSelectAllChange(e, employees)}"
+                ></checkbox-element>
+              </th>
               <th>${this.t('employeeForm.firstName')}</th>
               <th>${this.t('employeeForm.lastName')}</th>
               <th>${this.t('employeeForm.email')}</th>
@@ -522,6 +602,12 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
             ${employees.map(
               (emp) => html`
                 <tr>
+                  <td>
+                    <checkbox-element
+                      .isChecked="${this._isEmployeeSelected(emp.id)}"
+                      @change="${(e) => this._handleCheckboxChange(e, emp.id)}"
+                    ></checkbox-element>
+                  </td>
                   <td>${emp.firstName}</td>
                   <td>${emp.lastName}</td>
                   <td>${emp.email}</td>
@@ -537,14 +623,20 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
                         @click="${() => this._handleEdit(emp.id)}"
                         title="${this.t('actions.edit')}"
                       >
-                        <icon-element name="edit" />
+                        <icon-element
+                          name="edit"
+                          color="var(--color-primary)"
+                        />
                       </button>
                       <button
                         class="btn btn-delete"
                         @click="${() => this._handleDelete(emp)}"
                         title="${this.t('actions.delete')}"
                       >
-                        <icon-element name="delete" />
+                        <icon-element
+                          name="delete"
+                          color="var(--color-primary)"
+                        />
                       </button>
                     </div>
                   </td>
@@ -557,9 +649,9 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
     `;
   }
 
-  _renderListView(employees) {
+  _renderGridView(employees) {
     return html`
-      <div class="list-container">
+      <div class="grid-container">
         ${employees.map(
           (emp) => html`
             <div class="employee-card">
@@ -577,14 +669,14 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
                     @click="${() => this._handleEdit(emp.id)}"
                     title="${this.t('actions.edit')}"
                   >
-                    <span class="material-icons">edit</span>
+                    <icon-element name="edit" color="var(--color-primary)" />
                   </button>
                   <button
                     class="btn btn-delete"
                     @click="${() => this._handleDelete(emp)}"
                     title="${this.t('actions.delete')}"
                   >
-                    <span class="material-icons">delete</span>
+                    <icon-element name="delete" color="var(--color-primary)" />
                   </button>
                 </div>
               </div>

@@ -199,6 +199,7 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
     this.cancelText = '';
     this.type = 'warning';
     this.confirmButtonType = 'danger';
+    this._resolvePromise = null;
   }
 
   show({
@@ -216,6 +217,9 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
     this.type = type;
     this.confirmButtonType = confirmButtonType;
     this.open = true;
+    return new Promise((resolve) => {
+      this._resolvePromise = resolve;
+    });
   }
 
   hide() {
@@ -261,7 +265,7 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
     return html`
       <div class="modal-container">
         <div class="overlay" @click="${this._handleOverlayClick}"></div>
-        <div class="dialog" @click="${(e) => e.stopPropagation()}">
+        <div class="dialog" @click="${(e) => e.preventDefault()}">
           <div class="dialog-header">
             <icon-element
               class="dialog-icon ${this.type}"

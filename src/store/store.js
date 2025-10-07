@@ -76,6 +76,15 @@ class Store {
     this.notify();
   }
 
+  deleteEmployees(ids) {
+    const idSet = new Set(ids);
+    this.state.employees = this.state.employees.filter(
+      (emp) => !idSet.has(emp.id)
+    );
+    this.saveToStorage();
+    this.notify();
+  }
+
   emailExists(email, excludeId = null) {
     return this.state.employees.some(
       (emp) => emp.email === email && emp.id !== excludeId
