@@ -31,7 +31,9 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
 
       h1 {
         font-size: var(--font-size-3xl);
-        color: var(--color-text);
+        font-weight: 400;
+        font-family: 'Roboto', sans-serif;
+        color: var(--color-primary);
         margin: 0;
       }
 
@@ -90,7 +92,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
         padding: var(--spacing-md);
         text-align: left;
         font-weight: 600;
-        color: var(--color-text);
+        color: var(--color-primary);
         border-bottom: 2px solid var(--color-border);
       }
 
@@ -143,7 +145,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
 
       .card-body {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
         gap: var(--spacing-md);
         margin-bottom: var(--spacing-md);
       }
@@ -152,6 +154,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-xs);
+        overflow-wrap: anywhere;
       }
 
       .card-field-label {
@@ -275,8 +278,8 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
           align-items: stretch;
         }
 
-        .controls {
-          flex-direction: column;
+        .search-box {
+          width: 60%;
         }
 
         input[type='text'] {

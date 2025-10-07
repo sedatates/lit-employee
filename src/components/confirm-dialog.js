@@ -100,8 +100,10 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
 
       .dialog-footer {
         display: flex;
+        flex-direction: column-reverse;
         gap: var(--spacing-md);
         justify-content: flex-end;
+        width: 100%;
       }
 
       .btn {
@@ -112,11 +114,13 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
         font-size: var(--font-size-base);
         font-weight: 500;
         transition: all var(--transition-fast);
+        width: 100%;
       }
 
       .btn-cancel {
-        background-color: var(--color-gray-200);
-        color: var(--color-text);
+        background-color: white;
+        color: var(--color-text-secondary);
+        border: 1px solid var(--color-gray-300);
       }
 
       .btn-cancel:hover {
@@ -124,12 +128,16 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
       }
 
       .btn-confirm {
-        background-color: var(--color-danger);
+        background-color: var(--color-primary);
         color: white;
       }
 
       .btn-confirm:hover {
-        background-color: #dc2626;
+        background-color: color-mix(
+          in srgb,
+          var(--color-primary),
+          transparent 30%
+        );
       }
 
       .btn-confirm.primary {
@@ -267,16 +275,6 @@ export class ConfirmDialog extends LocalizeMixin(LitElement) {
         <div class="overlay" @click="${this._handleOverlayClick}"></div>
         <div class="dialog" @click="${(e) => e.preventDefault()}">
           <div class="dialog-header">
-            <icon-element
-              class="dialog-icon ${this.type}"
-              name="${this.type === 'danger' ? 'delete' : 'info'}"
-              size="32"
-              color="${this.type === 'danger'
-                ? 'var(--color-danger)'
-                : this.type === 'warning'
-                ? 'var(--color-warning)'
-                : 'var(--color-info)'}"
-            ></icon-element>
             <h2 class="dialog-title">${this.title}</h2>
           </div>
 

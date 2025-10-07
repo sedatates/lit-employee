@@ -40,7 +40,7 @@ const sampleEmployees = [
     dateOfBirth: '1988-03-25',
     phone: '+90 555 456 7890',
     email: 'elif.celik@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -51,7 +51,7 @@ const sampleEmployees = [
     dateOfBirth: '1998-07-30',
     phone: '+90 555 567 8901',
     email: 'can.aydin@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Junior',
   },
   {
@@ -62,7 +62,7 @@ const sampleEmployees = [
     dateOfBirth: '1991-10-11',
     phone: '+90 555 678 9012',
     email: 'zeynep.koc@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Medior',
   },
   {
@@ -84,7 +84,7 @@ const sampleEmployees = [
     dateOfBirth: '1996-09-18',
     phone: '+90 555 890 1234',
     email: 'selin.arslan@example.com',
-    department: 'Design',
+    department: 'Analytics',
     position: 'Junior',
   },
   {
@@ -106,7 +106,7 @@ const sampleEmployees = [
     dateOfBirth: '1991-11-27',
     phone: '+90 555 012 3456',
     email: 'gamze.ozturk@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -117,7 +117,7 @@ const sampleEmployees = [
     dateOfBirth: '1989-01-19',
     phone: '+90 555 223 3344',
     email: 'burak.yalcin@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -139,7 +139,7 @@ const sampleEmployees = [
     dateOfBirth: '1995-07-07',
     phone: '+90 555 445 5566',
     email: 'fatma.ozdemir@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Medior',
   },
   {
@@ -161,7 +161,7 @@ const sampleEmployees = [
     dateOfBirth: '1988-09-09',
     phone: '+90 555 667 7788',
     email: 'cansu.yildirim@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -183,7 +183,7 @@ const sampleEmployees = [
     dateOfBirth: '1990-10-20',
     phone: '+90 555 889 9900',
     email: 'melisa.bozkurt@example.com',
-    department: 'Design',
+    department: 'Analytics',
     position: 'Medior',
   },
   {
@@ -194,7 +194,7 @@ const sampleEmployees = [
     dateOfBirth: '1986-02-18',
     phone: '+90 555 900 1111',
     email: 'kerem.tas@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -205,7 +205,7 @@ const sampleEmployees = [
     dateOfBirth: '1996-06-08',
     phone: '+90 555 111 2222',
     email: 'naz.ucar@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Junior',
   },
   {
@@ -249,7 +249,7 @@ const sampleEmployees = [
     dateOfBirth: '1989-09-21',
     phone: '+90 555 555 6666',
     email: 'irem.ersoy@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -260,7 +260,7 @@ const sampleEmployees = [
     dateOfBirth: '1993-05-25',
     phone: '+90 555 666 7777',
     email: 'serkan.uzun@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Medior',
   },
   {
@@ -271,7 +271,7 @@ const sampleEmployees = [
     dateOfBirth: '1991-02-28',
     phone: '+90 555 777 8888',
     email: 'derya.aksoy@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Senior',
   },
   {
@@ -315,7 +315,7 @@ const sampleEmployees = [
     dateOfBirth: '1990-08-14',
     phone: '+90 555 202 0202',
     email: 'buse.gul@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -337,7 +337,7 @@ const sampleEmployees = [
     dateOfBirth: '1988-10-01',
     phone: '+90 555 404 0404',
     email: 'seda.yildiz@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -359,7 +359,7 @@ const sampleEmployees = [
     dateOfBirth: '1991-06-02',
     phone: '+90 555 606 0606',
     email: 'ilknur.ozer@example.com',
-    department: 'Design',
+    department: 'Analytics',
     position: 'Medior',
   },
   {
@@ -370,7 +370,7 @@ const sampleEmployees = [
     dateOfBirth: '1985-04-04',
     phone: '+90 555 707 0707',
     email: 'levent.guler@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -381,7 +381,7 @@ const sampleEmployees = [
     dateOfBirth: '1997-05-12',
     phone: '+90 555 808 0808',
     email: 'eda.yuce@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Junior',
   },
   {
@@ -403,7 +403,7 @@ const sampleEmployees = [
     dateOfBirth: '1991-08-08',
     phone: '+90 555 111 1212',
     email: 'nisa.acar@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -436,7 +436,7 @@ const sampleEmployees = [
     dateOfBirth: '1989-01-01',
     phone: '+90 555 444 4545',
     email: 'enes.orhan@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -447,7 +447,7 @@ const sampleEmployees = [
     dateOfBirth: '1992-11-25',
     phone: '+90 555 555 5656',
     email: 'pelin.ay@example.com',
-    department: 'Design',
+    department: 'Analytics',
     position: 'Medior',
   },
   {
@@ -469,7 +469,7 @@ const sampleEmployees = [
     dateOfBirth: '1994-08-13',
     phone: '+90 555 777 7878',
     email: 'dilan.ari@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Medior',
   },
   {
@@ -480,7 +480,7 @@ const sampleEmployees = [
     dateOfBirth: '1986-12-31',
     phone: '+90 555 888 8989',
     email: 'gokhan.tunc@example.com',
-    department: 'Finance',
+    department: 'Tech',
     position: 'Senior',
   },
   {
@@ -513,7 +513,7 @@ const sampleEmployees = [
     dateOfBirth: '1993-02-11',
     phone: '+90 555 202 2323',
     email: 'gizem.can@example.com',
-    department: 'HR',
+    department: 'Tech',
     position: 'Medior',
   },
   {
@@ -535,7 +535,7 @@ const sampleEmployees = [
     dateOfBirth: '1995-07-07',
     phone: '+90 555 404 4545',
     email: 'elvan.ergin@example.com',
-    department: 'Marketing',
+    department: 'Analytics',
     position: 'Medior',
   },
   {
