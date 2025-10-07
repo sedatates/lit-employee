@@ -1,9 +1,7 @@
 import {Router} from '@vaadin/router';
 
-let router;
-
 export function initRouter(outlet) {
-  router = new Router(outlet);
+  const router = new Router(outlet);
 
   router.setRoutes([
     {
@@ -41,14 +39,4 @@ export function initRouter(outlet) {
   ]);
 
   return router;
-}
-
-export function getRouter() {
-  return router;
-}
-
-export function navigateTo(path) {
-  if (router) {
-    Router.go(path);
-  }
 }
