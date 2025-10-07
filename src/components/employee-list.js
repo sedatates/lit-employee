@@ -183,7 +183,6 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 36px;
         height: 36px;
       }
 
@@ -663,22 +662,6 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
                     ${this.t(`positions.${emp.position.toLowerCase()}`)}
                   </div>
                 </div>
-                <div class="actions">
-                  <button
-                    class="btn btn-edit"
-                    @click="${() => this._handleEdit(emp.id)}"
-                    title="${this.t('actions.edit')}"
-                  >
-                    <icon-element name="edit" color="var(--color-primary)" />
-                  </button>
-                  <button
-                    class="btn btn-delete"
-                    @click="${() => this._handleDelete(emp)}"
-                    title="${this.t('actions.delete')}"
-                  >
-                    <icon-element name="delete" color="var(--color-primary)" />
-                  </button>
-                </div>
               </div>
               <div class="card-body">
                 <div class="card-field">
@@ -704,6 +687,27 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
                     ${this.t('employeeForm.dateOfEmployment')}
                   </div>
                   <div class="card-field-value">${emp.dateOfEmployment}</div>
+                </div>
+
+                <div class="actions">
+                  <button
+                    class="btn btn-edit"
+                    style="background-color: var(--color-secondary); gap: var(--spacing-xs); color: white;"
+                    @click="${() => this._handleEdit(emp.id)}"
+                    title="${this.t('actions.edit')}"
+                  >
+                    <icon-element name="edit" color="white"></icon-element>
+                    <p>${this.t('actions.edit')}</p>
+                  </button>
+                  <button
+                    class="btn btn-delete"
+                    style="background-color: var(--color-primary); gap: var(--spacing-xs); color: white;"
+                    @click="${() => this._handleDelete(emp)}"
+                    title="${this.t('actions.delete')}"
+                  >
+                    <icon-element name="delete" color="white"></icon-element>
+                    <p>${this.t('actions.delete')}</p>
+                  </button>
                 </div>
               </div>
             </div>
