@@ -1,5 +1,7 @@
 const STORAGE_KEY = 'employee-management-data';
 
+import {sampleEmployees} from './constants.js';
+
 class Store {
   constructor() {
     this.state = {
@@ -9,7 +11,6 @@ class Store {
     this.loadFromStorage();
   }
 
-  // Load state from localStorage
   loadFromStorage() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -21,7 +22,6 @@ class Store {
     }
   }
 
-  // Save state to localStorage
   saveToStorage() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
@@ -30,33 +30,27 @@ class Store {
     }
   }
 
-  // Subscribe to state changes
   subscribe(listener) {
     this.listeners.add(listener);
     return () => this.listeners.delete(listener);
   }
 
-  // Notify all listeners
   notify() {
     this.listeners.forEach((listener) => listener(this.state));
   }
 
-  // Get current state
   getState() {
     return {...this.state};
   }
 
-  // Get all employees
   getEmployees() {
     return [...this.state.employees];
   }
 
-  // Get employee by ID
   getEmployeeById(id) {
     return this.state.employees.find((emp) => emp.id === id);
   }
 
-  // Add new employee
   addEmployee(employee) {
     const newEmployee = {
       ...employee,
@@ -68,7 +62,6 @@ class Store {
     return newEmployee;
   }
 
-  // Update employee
   updateEmployee(id, updatedData) {
     this.state.employees = this.state.employees.map((emp) =>
       emp.id === id ? {...emp, ...updatedData} : emp
@@ -77,576 +70,20 @@ class Store {
     this.notify();
   }
 
-  // Delete employee
   deleteEmployee(id) {
     this.state.employees = this.state.employees.filter((emp) => emp.id !== id);
     this.saveToStorage();
     this.notify();
   }
 
-  // Check if email exists (for validation)
   emailExists(email, excludeId = null) {
     return this.state.employees.some(
       (emp) => emp.email === email && emp.id !== excludeId
     );
   }
 
-  // Initialize with sample data if empty
   initializeSampleData() {
     if (this.state.employees.length === 0) {
-      const sampleEmployees = [
-        {
-          id: '1',
-          firstName: 'Ahmet',
-          lastName: 'Yılmaz',
-          dateOfEmployment: '2020-01-15',
-          dateOfBirth: '1990-05-20',
-          phone: '+90 555 123 4567',
-          email: 'ahmet.yilmaz@example.com',
-          department: 'Tech',
-          position: 'Senior',
-        },
-        {
-          id: '2',
-          firstName: 'Ayşe',
-          lastName: 'Demir',
-          dateOfEmployment: '2021-03-10',
-          dateOfBirth: '1992-08-15',
-          phone: '+90 555 234 5678',
-          email: 'ayse.demir@example.com',
-          department: 'Analytics',
-          position: 'Medior',
-        },
-        {
-          id: '3',
-          firstName: 'Mehmet',
-          lastName: 'Kaya',
-          dateOfEmployment: '2022-06-01',
-          dateOfBirth: '1995-12-10',
-          phone: '+90 555 345 6789',
-          email: 'mehmet.kaya@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '4',
-          firstName: 'Elif',
-          lastName: 'Çelik',
-          dateOfEmployment: '2019-11-20',
-          dateOfBirth: '1988-03-25',
-          phone: '+90 555 456 7890',
-          email: 'elif.celik@example.com',
-          department: 'HR',
-          position: 'Senior',
-        },
-        {
-          id: '5',
-          firstName: 'Can',
-          lastName: 'Aydın',
-          dateOfEmployment: '2023-02-14',
-          dateOfBirth: '1998-07-30',
-          phone: '+90 555 567 8901',
-          email: 'can.aydin@example.com',
-          department: 'Marketing',
-          position: 'Junior',
-        },
-        {
-          id: '6',
-          firstName: 'Zeynep',
-          lastName: 'Koç',
-          dateOfEmployment: '2020-08-09',
-          dateOfBirth: '1991-10-11',
-          phone: '+90 555 678 9012',
-          email: 'zeynep.koc@example.com',
-          department: 'Finance',
-          position: 'Medior',
-        },
-        {
-          id: '7',
-          firstName: 'Murat',
-          lastName: 'Şahin',
-          dateOfEmployment: '2018-05-17',
-          dateOfBirth: '1987-04-22',
-          phone: '+90 555 789 0123',
-          email: 'murat.sahin@example.com',
-          department: 'Tech',
-          position: 'Senior',
-        },
-        {
-          id: '8',
-          firstName: 'Selin',
-          lastName: 'Arslan',
-          dateOfEmployment: '2022-09-10',
-          dateOfBirth: '1996-09-18',
-          phone: '+90 555 890 1234',
-          email: 'selin.arslan@example.com',
-          department: 'Design',
-          position: 'Junior',
-        },
-        {
-          id: '9',
-          firstName: 'Emre',
-          lastName: 'Polat',
-          dateOfEmployment: '2021-12-02',
-          dateOfBirth: '1993-02-05',
-          phone: '+90 555 901 2345',
-          email: 'emre.polat@example.com',
-          department: 'Tech',
-          position: 'Medior',
-        },
-        {
-          id: '10',
-          firstName: 'Gamze',
-          lastName: 'Öztürk',
-          dateOfEmployment: '2020-07-14',
-          dateOfBirth: '1991-11-27',
-          phone: '+90 555 012 3456',
-          email: 'gamze.ozturk@example.com',
-          department: 'HR',
-          position: 'Senior',
-        },
-        {
-          id: '11',
-          firstName: 'Burak',
-          lastName: 'Yalçın',
-          dateOfEmployment: '2019-09-01',
-          dateOfBirth: '1989-01-19',
-          phone: '+90 555 223 3344',
-          email: 'burak.yalcin@example.com',
-          department: 'Finance',
-          position: 'Senior',
-        },
-        {
-          id: '12',
-          firstName: 'Deniz',
-          lastName: 'Eren',
-          dateOfEmployment: '2023-04-11',
-          dateOfBirth: '1999-03-10',
-          phone: '+90 555 334 4455',
-          email: 'deniz.eren@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '13',
-          firstName: 'Fatma',
-          lastName: 'Özdemir',
-          dateOfEmployment: '2022-02-25',
-          dateOfBirth: '1995-07-07',
-          phone: '+90 555 445 5566',
-          email: 'fatma.ozdemir@example.com',
-          department: 'Marketing',
-          position: 'Medior',
-        },
-        {
-          id: '14',
-          firstName: 'Ali',
-          lastName: 'Güneş',
-          dateOfEmployment: '2021-08-01',
-          dateOfBirth: '1992-05-03',
-          phone: '+90 555 556 6677',
-          email: 'ali.gunes@example.com',
-          department: 'Analytics',
-          position: 'Junior',
-        },
-        {
-          id: '15',
-          firstName: 'Cansu',
-          lastName: 'Yıldırım',
-          dateOfEmployment: '2018-10-15',
-          dateOfBirth: '1988-09-09',
-          phone: '+90 555 667 7788',
-          email: 'cansu.yildirim@example.com',
-          department: 'HR',
-          position: 'Senior',
-        },
-        {
-          id: '16',
-          firstName: 'Efe',
-          lastName: 'Karaca',
-          dateOfEmployment: '2023-06-18',
-          dateOfBirth: '1999-12-01',
-          phone: '+90 555 778 8899',
-          email: 'efe.karaca@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '17',
-          firstName: 'Melisa',
-          lastName: 'Bozkurt',
-          dateOfEmployment: '2020-03-12',
-          dateOfBirth: '1990-10-20',
-          phone: '+90 555 889 9900',
-          email: 'melisa.bozkurt@example.com',
-          department: 'Design',
-          position: 'Medior',
-        },
-        {
-          id: '18',
-          firstName: 'Kerem',
-          lastName: 'Taş',
-          dateOfEmployment: '2019-01-10',
-          dateOfBirth: '1986-02-18',
-          phone: '+90 555 900 1111',
-          email: 'kerem.tas@example.com',
-          department: 'Finance',
-          position: 'Senior',
-        },
-        {
-          id: '19',
-          firstName: 'Naz',
-          lastName: 'Uçar',
-          dateOfEmployment: '2022-08-14',
-          dateOfBirth: '1996-06-08',
-          phone: '+90 555 111 2222',
-          email: 'naz.ucar@example.com',
-          department: 'Marketing',
-          position: 'Junior',
-        },
-        {
-          id: '20',
-          firstName: 'Tolga',
-          lastName: 'Bulut',
-          dateOfEmployment: '2021-05-22',
-          dateOfBirth: '1991-01-29',
-          phone: '+90 555 222 3333',
-          email: 'tolga.bulut@example.com',
-          department: 'Tech',
-          position: 'Medior',
-        },
-        {
-          id: '21',
-          firstName: 'Aslı',
-          lastName: 'Yavuz',
-          dateOfEmployment: '2020-10-05',
-          dateOfBirth: '1990-03-15',
-          phone: '+90 555 333 4444',
-          email: 'asli.yavuz@example.com',
-          department: 'Analytics',
-          position: 'Senior',
-        },
-        {
-          id: '22',
-          firstName: 'Baran',
-          lastName: 'Koşar',
-          dateOfEmployment: '2023-03-07',
-          dateOfBirth: '1998-11-17',
-          phone: '+90 555 444 5555',
-          email: 'baran.kosar@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '23',
-          firstName: 'İrem',
-          lastName: 'Ersoy',
-          dateOfEmployment: '2019-06-20',
-          dateOfBirth: '1989-09-21',
-          phone: '+90 555 555 6666',
-          email: 'irem.ersoy@example.com',
-          department: 'HR',
-          position: 'Senior',
-        },
-        {
-          id: '24',
-          firstName: 'Serkan',
-          lastName: 'Uzun',
-          dateOfEmployment: '2021-07-11',
-          dateOfBirth: '1993-05-25',
-          phone: '+90 555 666 7777',
-          email: 'serkan.uzun@example.com',
-          department: 'Finance',
-          position: 'Medior',
-        },
-        {
-          id: '25',
-          firstName: 'Derya',
-          lastName: 'Aksoy',
-          dateOfEmployment: '2020-09-02',
-          dateOfBirth: '1991-02-28',
-          phone: '+90 555 777 8888',
-          email: 'derya.aksoy@example.com',
-          department: 'Marketing',
-          position: 'Senior',
-        },
-        {
-          id: '26',
-          firstName: 'Kaan',
-          lastName: 'Erkan',
-          dateOfEmployment: '2023-07-15',
-          dateOfBirth: '1999-01-13',
-          phone: '+90 555 888 9999',
-          email: 'kaan.erkan@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '27',
-          firstName: 'Hande',
-          lastName: 'Altun',
-          dateOfEmployment: '2019-04-10',
-          dateOfBirth: '1987-07-11',
-          phone: '+90 555 999 0000',
-          email: 'hande.altun@example.com',
-          department: 'Analytics',
-          position: 'Senior',
-        },
-        {
-          id: '28',
-          firstName: 'Yusuf',
-          lastName: 'Deniz',
-          dateOfEmployment: '2021-10-23',
-          dateOfBirth: '1994-03-07',
-          phone: '+90 555 101 0101',
-          email: 'yusuf.deniz@example.com',
-          department: 'Tech',
-          position: 'Medior',
-        },
-        {
-          id: '29',
-          firstName: 'Buse',
-          lastName: 'Gül',
-          dateOfEmployment: '2020-02-18',
-          dateOfBirth: '1990-08-14',
-          phone: '+90 555 202 0202',
-          email: 'buse.gul@example.com',
-          department: 'HR',
-          position: 'Senior',
-        },
-        {
-          id: '30',
-          firstName: 'Okan',
-          lastName: 'Türkmen',
-          dateOfEmployment: '2022-05-05',
-          dateOfBirth: '1996-12-22',
-          phone: '+90 555 303 0303',
-          email: 'okan.turkmen@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '31',
-          firstName: 'Seda',
-          lastName: 'Yıldız',
-          dateOfEmployment: '2018-07-07',
-          dateOfBirth: '1988-10-01',
-          phone: '+90 555 404 0404',
-          email: 'seda.yildiz@example.com',
-          department: 'Finance',
-          position: 'Senior',
-        },
-        {
-          id: '32',
-          firstName: 'Tuna',
-          lastName: 'Akın',
-          dateOfEmployment: '2023-01-10',
-          dateOfBirth: '1999-09-09',
-          phone: '+90 555 505 0505',
-          email: 'tuna.akin@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '33',
-          firstName: 'İlknur',
-          lastName: 'Özer',
-          dateOfEmployment: '2020-06-09',
-          dateOfBirth: '1991-06-02',
-          phone: '+90 555 606 0606',
-          email: 'ilknur.ozer@example.com',
-          department: 'Design',
-          position: 'Medior',
-        },
-        {
-          id: '34',
-          firstName: 'Levent',
-          lastName: 'Güler',
-          dateOfEmployment: '2019-02-19',
-          dateOfBirth: '1985-04-04',
-          phone: '+90 555 707 0707',
-          email: 'levent.guler@example.com',
-          department: 'Finance',
-          position: 'Senior',
-        },
-        {
-          id: '35',
-          firstName: 'Eda',
-          lastName: 'Yüce',
-          dateOfEmployment: '2022-12-01',
-          dateOfBirth: '1997-05-12',
-          phone: '+90 555 808 0808',
-          email: 'eda.yuce@example.com',
-          department: 'Marketing',
-          position: 'Junior',
-        },
-        {
-          id: '36',
-          firstName: 'Mert',
-          lastName: 'Kurt',
-          dateOfEmployment: '2021-03-14',
-          dateOfBirth: '1993-03-03',
-          phone: '+90 555 909 0909',
-          email: 'mert.kurt@example.com',
-          department: 'Tech',
-          position: 'Medior',
-        },
-        {
-          id: '37',
-          firstName: 'Nisa',
-          lastName: 'Acar',
-          dateOfEmployment: '2020-08-08',
-          dateOfBirth: '1991-08-08',
-          phone: '+90 555 111 1212',
-          email: 'nisa.acar@example.com',
-          department: 'HR',
-          position: 'Senior',
-        },
-        {
-          id: '38',
-          firstName: 'Umut',
-          lastName: 'Korkmaz',
-          dateOfEmployment: '2023-05-10',
-          dateOfBirth: '1999-07-07',
-          phone: '+90 555 222 2323',
-          email: 'umut.korkmaz@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '39',
-          firstName: 'Ceyda',
-          lastName: 'Yaman',
-          dateOfEmployment: '2021-09-15',
-          dateOfBirth: '1994-02-14',
-          phone: '+90 555 333 3434',
-          email: 'ceyda.yaman@example.com',
-          department: 'Analytics',
-          position: 'Medior',
-        },
-        {
-          id: '40',
-          firstName: 'Enes',
-          lastName: 'Orhan',
-          dateOfEmployment: '2019-05-21',
-          dateOfBirth: '1989-01-01',
-          phone: '+90 555 444 4545',
-          email: 'enes.orhan@example.com',
-          department: 'Finance',
-          position: 'Senior',
-        },
-        {
-          id: '41',
-          firstName: 'Pelin',
-          lastName: 'Ay',
-          dateOfEmployment: '2020-11-25',
-          dateOfBirth: '1992-11-25',
-          phone: '+90 555 555 5656',
-          email: 'pelin.ay@example.com',
-          department: 'Design',
-          position: 'Medior',
-        },
-        {
-          id: '42',
-          firstName: 'Volkan',
-          lastName: 'Ateş',
-          dateOfEmployment: '2022-04-04',
-          dateOfBirth: '1996-04-04',
-          phone: '+90 555 666 6767',
-          email: 'volkan.ates@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '43',
-          firstName: 'Dilan',
-          lastName: 'Arı',
-          dateOfEmployment: '2021-08-13',
-          dateOfBirth: '1994-08-13',
-          phone: '+90 555 777 7878',
-          email: 'dilan.ari@example.com',
-          department: 'Marketing',
-          position: 'Medior',
-        },
-        {
-          id: '44',
-          firstName: 'Gökhan',
-          lastName: 'Tunç',
-          dateOfEmployment: '2018-12-31',
-          dateOfBirth: '1986-12-31',
-          phone: '+90 555 888 8989',
-          email: 'gokhan.tunc@example.com',
-          department: 'Finance',
-          position: 'Senior',
-        },
-        {
-          id: '45',
-          firstName: 'Zehra',
-          lastName: 'Önal',
-          dateOfEmployment: '2023-03-28',
-          dateOfBirth: '1998-03-28',
-          phone: '+90 555 999 9090',
-          email: 'zehra.onal@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-        {
-          id: '46',
-          firstName: 'Ferhat',
-          lastName: 'Baran',
-          dateOfEmployment: '2020-07-19',
-          dateOfBirth: '1990-07-19',
-          phone: '+90 555 101 1212',
-          email: 'ferhat.baran@example.com',
-          department: 'Analytics',
-          position: 'Senior',
-        },
-        {
-          id: '47',
-          firstName: 'Gizem',
-          lastName: 'Can',
-          dateOfEmployment: '2021-02-11',
-          dateOfBirth: '1993-02-11',
-          phone: '+90 555 202 2323',
-          email: 'gizem.can@example.com',
-          department: 'HR',
-          position: 'Medior',
-        },
-        {
-          id: '48',
-          firstName: 'Sami',
-          lastName: 'Yurt',
-          dateOfEmployment: '2019-03-22',
-          dateOfBirth: '1988-03-22',
-          phone: '+90 555 303 3434',
-          email: 'sami.yurt@example.com',
-          department: 'Tech',
-          position: 'Senior',
-        },
-        {
-          id: '49',
-          firstName: 'Elvan',
-          lastName: 'Ergin',
-          dateOfEmployment: '2022-07-07',
-          dateOfBirth: '1995-07-07',
-          phone: '+90 555 404 4545',
-          email: 'elvan.ergin@example.com',
-          department: 'Marketing',
-          position: 'Medior',
-        },
-        {
-          id: '50',
-          firstName: 'Onur',
-          lastName: 'Yazıcı',
-          dateOfEmployment: '2023-08-29',
-          dateOfBirth: '1999-08-29',
-          phone: '+90 555 505 5656',
-          email: 'onur.yazici@example.com',
-          department: 'Tech',
-          position: 'Junior',
-        },
-      ];
-
       this.state.employees = sampleEmployees;
       this.saveToStorage();
       this.notify();
