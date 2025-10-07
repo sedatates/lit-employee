@@ -1,7 +1,7 @@
 export const tr = {
   nav: {
     employees: 'Çalışanlar',
-    addEmployee: 'Çalışan Ekle',
+    addEmployee: 'Yeni Ekle',
   },
 
   employeeList: {

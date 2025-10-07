@@ -1,7 +1,7 @@
 export const en = {
   nav: {
     employees: 'Employees',
-    addEmployee: 'Add Employee',
+    addEmployee: 'Add New',
   },
 
   employeeList: {

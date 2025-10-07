@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {LocalizeMixin, setLanguage} from '../utils/i18n.js';
+import {LocalizeMixin, setLanguage, getCurrentLanguage} from '../utils/i18n.js';
 import './icons.js';
 
 import {Router} from '@vaadin/router';
@@ -74,6 +74,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
       .mobile-menu {
         display: none;
         flex-direction: column;
+        align-items: flex-end;
         background-color: var(--color-primary);
         padding: var(--spacing-md);
         gap: var(--spacing-sm);
@@ -81,6 +82,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
 
       .mobile-menu.open {
         display: flex;
+        animation: slideIn 0.3s ease-in-out;
       }
 
       .mobile-menu a {
@@ -95,7 +97,12 @@ export class NavMenu extends LocalizeMixin(LitElement) {
         background-color: var(--color-primary-dark);
       }
 
-      /* Responsive */
+      .navlink-inner {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-sm);
+      }
+
       @media (max-width: 768px) {
         .nav-links {
           display: none;
@@ -112,6 +119,12 @@ export class NavMenu extends LocalizeMixin(LitElement) {
     return {
       mobileMenuOpen: {type: Boolean},
     };
+  }
+
+  _changeLanguage() {
+    const currentLang = getCurrentLanguage();
+    const lang = currentLang === 'en' ? 'tr' : 'en';
+    setLanguage(lang);
   }
 
   constructor() {
@@ -148,14 +161,36 @@ export class NavMenu extends LocalizeMixin(LitElement) {
               href="/employees"
               @click="${(e) => this.navigate(e, '/employees')}"
             >
-              ${this.t('nav.employees')}
+              <div class="navlink-inner">
+                <icon-element
+                  name="employee"
+                  size="24"
+                  color="white"
+                ></icon-element>
+                <span>${this.t('nav.employees')}</span>
+              </div>
             </a>
             <a
               href="/employees/new"
               @click="${(e) => this.navigate(e, '/employees/new')}"
             >
-              ${this.t('nav.addEmployee')}
+              <div class="navlink-inner">
+                <icon-element
+                  name="employee-add"
+                  size="24"
+                  color="white"
+                ></icon-element>
+                <span>${this.t('nav.addEmployee')}</span>
+              </div>
             </a>
+
+            <!-- Language Switcher -->
+            <icon-element
+              name=${getCurrentLanguage() === 'en' ? 'flag-EN' : 'flag-TR'}
+              size="24"
+              color="white"
+              @click="${() => this._changeLanguage()}"
+            ></icon-element>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -172,16 +207,38 @@ export class NavMenu extends LocalizeMixin(LitElement) {
         <div class="mobile-menu ${this.mobileMenuOpen ? 'open' : ''}">
           <a
             href="/employees"
-            @click="${(e) => this._navigate(e, '/employees')}"
+            @click="${(e) => this.navigate(e, '/employees')}"
           >
-            ${this.t('nav.employees')}
+            <div class="navlink-inner">
+              <icon-element
+                name="employee"
+                size="24"
+                color="white"
+              ></icon-element>
+              <span>${this.t('nav.employees')}</span>
+            </div>
           </a>
           <a
             href="/employees/new"
             @click="${(e) => this.navigate(e, '/employees/new')}"
           >
-            ${this.t('nav.addEmployee')}
+            <div class="navlink-inner">
+              <icon-element
+                name="employee-add"
+                size="24"
+                color="white"
+              ></icon-element>
+              <span>${this.t('nav.addEmployee')}</span>
+            </div>
           </a>
+
+          <!-- Language Switcher -->
+          <icon-element
+            name=${getCurrentLanguage() === 'en' ? 'flag-EN' : 'flag-TR'}
+            size="24"
+            color="white"
+            @click="${() => this._changeLanguage()}"
+          ></icon-element>
         </div>
       </nav>
     `;
