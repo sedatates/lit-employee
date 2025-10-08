@@ -39,7 +39,6 @@
   "author": "Google LLC",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@vaadin/router": "^2.0.0",
     "lit": "^3.2.0"
   },
   "devDependencies": {
