@@ -6,6 +6,25 @@ This template is generated from the `lit-starter-js` package in [the main Lit
 repo](https://github.com/lit/lit). Issues and PRs for this template should be
 filed in that repo.
 
+## Employee Management Application
+
+This repository contains an Employee Management application built with Lit web components.
+
+### GitHub Pages Deployment
+
+The application is automatically deployed to GitHub Pages when changes are pushed to the `main` branch.
+
+**Live Demo:** https://sedatates.github.io/lit-employee/
+
+#### Setup GitHub Pages
+
+1. Go to repository Settings → Pages
+2. Under "Source", select "Deploy from a branch"
+3. Select branch: `main` and folder: `/docs`
+4. Click Save
+
+The GitHub Actions workflow (`.github/workflows/deploy.yml`) will automatically build and deploy the application.
+
 ## About this release
 
 This is a pre-release of Lit 3.0, the next major version of Lit.
