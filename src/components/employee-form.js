@@ -1,6 +1,7 @@
 import {LitElement, html, css} from 'lit';
 import {LocalizeMixin} from '../utils/i18n.js';
 import store from '../store/store.js';
+import {resolveAppPath} from '../utils/base-path.js';
 import './confirm-dialog.js';
 
 export class EmployeeForm extends LocalizeMixin(LitElement) {
@@ -282,7 +283,7 @@ export class EmployeeForm extends LocalizeMixin(LitElement) {
 
   _navigateToList() {
     import('@vaadin/router').then(({Router}) => {
-      Router.go('/employees');
+      Router.go(resolveAppPath('/employees'));
     });
   }
 

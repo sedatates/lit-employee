@@ -1,7 +1,9 @@
 import {Router} from '@vaadin/router';
+import {getBasePath} from '../utils/base-path.js';
 
 export function initRouter(outlet) {
-  const router = new Router(outlet);
+  const basePath = getBasePath();
+  const router = new Router(outlet, basePath ? {baseUrl: basePath} : undefined);
 
   router.setRoutes([
     {

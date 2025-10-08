@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit';
 import {LocalizeMixin} from '../utils/i18n.js';
 import store from '../store/store.js';
 import {Router} from '@vaadin/router';
+import {resolveAppPath} from '../utils/base-path.js';
 
 import './confirm-dialog.js';
 import './icons.js';
@@ -366,7 +367,7 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
   }
 
   _handleEdit(id) {
-    Router.go(`/employees/${id}/edit`);
+    Router.go(resolveAppPath(`/employees/${id}/edit`));
   }
 
   _handleCheckboxChange(e, id) {

@@ -1,7 +1,7 @@
 import {LitElement, html, css} from 'lit';
 import {LocalizeMixin, setLanguage, getCurrentLanguage} from '../utils/i18n.js';
 import './icons.js';
-
+import {resolveAppPath} from '../utils/base-path.js';
 import {Router} from '@vaadin/router';
 
 export class NavMenu extends LocalizeMixin(LitElement) {
@@ -139,7 +139,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
   navigate(e, path) {
     e.preventDefault();
     this.mobileMenuOpen = false;
-    Router.go(path);
+    Router.go(resolveAppPath(path));
   }
 
   render() {
@@ -149,6 +149,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
           <a
             alt="Logo"
             class="nav-brand"
+            href="${resolveAppPath('/')}"
             @click="${(e) => this.navigate(e, '/')}"
           >
             <icon-element name="cat" size="32" color="white"></icon-element>
@@ -158,7 +159,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
 
           <div class="nav-links">
             <a
-              href="/employees"
+              href="${resolveAppPath('/employees')}"
               @click="${(e) => this.navigate(e, '/employees')}"
             >
               <div class="navlink-inner">
@@ -171,7 +172,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
               </div>
             </a>
             <a
-              href="/employees/new"
+              href="${resolveAppPath('/employees/new')}"
               @click="${(e) => this.navigate(e, '/employees/new')}"
             >
               <div class="navlink-inner">
@@ -207,7 +208,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
         <!-- Mobile Menu -->
         <div class="mobile-menu ${this.mobileMenuOpen ? 'open' : ''}">
           <a
-            href="/employees"
+            href="${resolveAppPath('/employees')}"
             @click="${(e) => this.navigate(e, '/employees')}"
           >
             <div class="navlink-inner">
@@ -220,7 +221,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
             </div>
           </a>
           <a
-            href="/employees/new"
+            href="${resolveAppPath('/employees/new')}"
             @click="${(e) => this.navigate(e, '/employees/new')}"
           >
             <div class="navlink-inner">
