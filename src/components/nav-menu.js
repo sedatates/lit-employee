@@ -189,6 +189,7 @@ export class NavMenu extends LocalizeMixin(LitElement) {
               name=${getCurrentLanguage() === 'en' ? 'flag-EN' : 'flag-TR'}
               size="24"
               color="white"
+              style="cursor: pointer; hover: opacity 0.8;"
               @click="${() => this._changeLanguage()}"
             ></icon-element>
           </div>

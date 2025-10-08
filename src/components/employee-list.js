@@ -1,11 +1,12 @@
 import {LitElement, html, css} from 'lit';
 import {LocalizeMixin} from '../utils/i18n.js';
 import store from '../store/store.js';
+import {Router} from '@vaadin/router';
 
 import './confirm-dialog.js';
 import './icons.js';
 import './checkbox.js';
-import {Router} from '@vaadin/router';
+import './pagination.js';
 
 export class EmployeeList extends LocalizeMixin(LitElement) {
   static get styles() {
@@ -446,13 +447,8 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
     }
   }
 
-  _changePage(direction) {
-    this.currentPage += direction;
-  }
-
-  _changeItemsPerPage(e) {
-    this.itemsPerPage = parseInt(e.target.value);
-    this.currentPage = 1;
+  _changePagingation(e) {
+    this.currentPage = e.detail.page;
   }
 
   _getPaginatedEmployees() {
@@ -516,6 +512,8 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
           </div>
         </div>
 
+        <!-- Employee List -->
+
         ${paginatedEmployees.length === 0
           ? html`<div class="no-results">
               ${this.t('employeeList.noResults')}
@@ -523,56 +521,14 @@ export class EmployeeList extends LocalizeMixin(LitElement) {
           : this.viewMode === 'table'
           ? this._renderTableView(paginatedEmployees)
           : this._renderGridView(paginatedEmployees)}
-        ${this.filteredEmployees.length > 0
-          ? html`
-              <div class="pagination">
-                <div class="pagination-info">
-                  ${this.t('employeeList.showing')} ${start}
-                  ${this.t('employeeList.to')} ${end}
-                  ${this.t('employeeList.of')} ${this.filteredEmployees.length}
-                  ${this.t('employeeList.entries')}
-                </div>
-                <div class="pagination-controls">
-                  <select @change="${this._changeItemsPerPage}">
-                    <option
-                      value="${this.viewMode === 'table' ? 10 : 12}"
-                      ?selected="${
-                        this.itemsPerPage ===
-                        (this.viewMode === 'table' ? 10 : 12)
-                      }"
-                    >
-                      ${this.viewMode === 'table' ? 10 : 12} / ${this.t(
-              'employeeList.page'
-            )}
-                    </option>
-                    <option value="
-                     ?selected="${this.itemsPerPage === 25}">
-                      25 / ${this.t('employeeList.page')}
-                    </option>
-                    <option value="50" ?selected="${this.itemsPerPage === 50}">
-                      50 / ${this.t('employeeList.page')}
-                    </option>
-                  </select>
-                  <button
-                    @click="${() => this._changePage(-1)}"
-                    ?disabled="${this.currentPage === 1}"
-                  >
-                    ← ${this.t('employeeList.page')}
-                  </button>
-                  <span
-                    >${this.currentPage} ${this.t('employeeList.of')}
-                    ${totalPages}</span
-                  >
-                  <button
-                    @click="${() => this._changePage(1)}"
-                    ?disabled="${this.currentPage === totalPages}"
-                  >
-                    ${this.t('employeeList.page')} →
-                  </button>
-                </div>
-              </div>
-            `
-          : ''}
+
+        <!-- Pagination Controls -->
+
+        <pagination-controls
+          .currentPage="${this.currentPage}"
+          .totalPages="${totalPages}"
+          @page-changed="${(e) => this._changePagingation(e)}"
+        ></pagination-controls>
       </div>
 
       <confirm-dialog></confirm-dialog>
