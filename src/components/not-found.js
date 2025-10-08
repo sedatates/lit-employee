@@ -1,6 +1,7 @@
 import {LitElement, html, css} from 'lit';
 import {LocalizeMixin} from '../utils/i18n.js';
 import {Router} from '@vaadin/router';
+import {resolveAppPath} from '../utils/base-path.js';
 
 export class NotFoundView extends LocalizeMixin(LitElement) {
   static get styles() {
@@ -52,7 +53,7 @@ export class NotFoundView extends LocalizeMixin(LitElement) {
 
   _navigate(e) {
     e.preventDefault();
-    Router.go('/');
+    Router.go(resolveAppPath('/'));
   }
 
   render() {
@@ -60,7 +61,11 @@ export class NotFoundView extends LocalizeMixin(LitElement) {
       <div class="container">
         <h1>${this.t('notFound.title')}</h1>
         <p>${this.t('notFound.message')}</p>
-        <a href="/" class="back-button" @click="${this._navigate}">
+        <a
+          href="${resolveAppPath('/')}"
+          class="back-button"
+          @click="${this._navigate}"
+        >
           ${this.t('notFound.backHome')}
         </a>
       </div>
